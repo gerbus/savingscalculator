@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import * as math from 'mathjs';
+import Chart from './components/Chartjs';
+
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
@@ -86,6 +88,8 @@ class App extends Component {
           </div>
         </div>
 
+        <Chart />
+        
         <div className="row">
           <div className="col-lg-6">
             <div className="row form-group">
