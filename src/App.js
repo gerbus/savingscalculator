@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import * as math from 'mathjs';
+import _ from 'lodash';
 import Chart from './components/Chartjs';
-
-
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
@@ -16,14 +15,31 @@ class App extends Component {
     contributionsAmount: '',
     years: '',
     balance: '',
-    work: '',
-  }
-
+  };
+  years = "{}";
+  chartData = {
+    labels: [],
+    datasets: [{
+      steppedLine: true,
+      data: []
+    }],      
+  };
+  chartOptions = {
+    scales: { 
+      yAxes: [{
+        type: 'linear',
+        position: 'left',
+        ticks: {
+          min: 0,
+        }
+      }] 
+    },        
+  };
   handleInput = (event) => {
     this.setState({
       [event.target.dataset.name]: event.target.value,
     });
-  }
+  };
   handleCalculate = () => {
     const principal = math.round(parseFloat(this.state.principal),2);
     const rate = math.round(parseFloat(this.state.rate),6);
@@ -31,38 +47,56 @@ class App extends Component {
     const contributions = parseInt(this.state.contributions);
     const contributionsAmount = math.round(parseFloat(this.state.contributionsAmount),2);
     const { years } = this.state;
+    let labels = [];
+    let label = 0;
+    let data = [];
     
+    // Init
     let calcBalance = principal;
-    const intervals = Math.min(compoundings, contributions) ? compoundings * contributions : Math.max(compoundings, contributions);
+    labels.push(label);
+    data.push(calcBalance);
     
     // Iterate
+    const intervals = Math.min(compoundings, contributions) ? compoundings * contributions : Math.max(compoundings, contributions);
     for (let year = 1; year <= years; year++) {
       for (let interval = 1; interval <= intervals; interval++) {
         let doCompound = compoundings && interval % parseInt(intervals/compoundings) === 0;
         let doContribute = contributions && interval % parseInt(intervals/contributions) === 0;
 
-        if (doCompound || doContribute) {
+        /*if (doCompound || doContribute) {
           console.log("interval");
-          console.log("balance:",calcBalance);          
-        }
+          console.log("balance:",calcBalance);
+        }*/
         if (doCompound) {
           // Do a compounding of interest
           calcBalance = math.round(calcBalance + parseFloat(calcBalance * rate),2);
-          console.log("compounding: *(1+",rate,") =>",calcBalance);          
+          //console.log("compounding: *(1+",rate,") =>",calcBalance);          
         }
         if (doContribute) {
           // Do a contribution
           calcBalance += contributionsAmount;
-          console.log("contributing: +",contributionsAmount," =>",calcBalance);
+          //console.log("contributing: +",contributionsAmount," =>",calcBalance);
+        }
+        if (doCompound || doContribute) {
+          labels.push(++label);
+          data.push(calcBalance);
         }
       }
     }
     
+    this.chartData = _.merge(this.chartData, {
+      labels: labels,
+      datasets: [{
+        data: data,
+      }]
+    });
+    this.refs["chart"].forceUpdate();
+    
+    this.years = years;
     this.setState({
-      balance: calcBalance
-    })
-  }
-  
+      balance: calcBalance,
+    });
+  };
   render() {
     const {
       handleInput,
@@ -87,8 +121,6 @@ class App extends Component {
             <h2>Calculate future savings based on compounding interest and/or regular contributions. Most online calculators don't support when contributions and interest compounding happen on different schedules, but this one does!</h2>
           </div>
         </div>
-
-        <Chart />
         
         <div className="row">
           <div className="col-lg-6">
@@ -98,7 +130,7 @@ class App extends Component {
                 <input 
                   type="number"
                   className="form-control"
-                  autoFocus="true"
+                  autoFocus={true}
                   data-name="principal"
                   value={principal}
                   onChange={handleInput} />
@@ -181,7 +213,7 @@ class App extends Component {
           
           <div className="offset-lg-1 col-lg-5">
             <div className="row form-group">
-              <label className="col-form-label col-sm-8 col-md-6 col-lg-7">Balance after {years} years</label>
+              <label className="col-form-label col-sm-8 col-md-6 col-lg-7">Balance after {this.years} years</label>
               <div className="col-sm-4 col-md-3 col-lg-5">
                 <input 
                   type="number"
@@ -194,15 +226,18 @@ class App extends Component {
             
             <div className="row form-group">
               <div className="col-md-9 col-lg-12">
-                <textarea 
-                  className="form-control" 
-                  rows="15"
-                  value={work} />
+                <Chart 
+                  ref="chart"
+                  type="line" 
+                  data={this.chartData} 
+                  options={this.chartOptions} />
               </div>
             </div>
           </div>
           
         </div>
+        
+                
       </div>
     );
   }
