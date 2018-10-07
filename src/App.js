@@ -79,93 +79,125 @@ class App extends Component {
       
     return (
       <div className="App container">
-        <div className="row">
-          <div className="col-sm-9 col-md-7 col-lg-5">
-            <h1>Compound Interest and Different Frequeucy Contributions Calculator</h1>
+        <div className="row mt-3 mb-3">
+          <div className="col-md-9 col-lg-6">
+            <h1>Savings Calculator</h1>
+            <h2>Calculate future savings based on compounding interest and/or regular contributions. Most online calculators don't support when contributions and interest compounding happen on different schedules, but this one does!</h2>
           </div>
         </div>
+
         <div className="row">
-          <div className="col-sm-9 col-md-7 col-lg-5">
-            <div className="form-group">
-              <div className="form-label">Initial Investment Amount (Principal)</div>
-              <input 
-                type="number"
-                className="form-control"
-                data-name="principal"
-                value={principal}
-                onChange={handleInput} />
+          <div className="col-lg-6">
+            <div className="row form-group">
+              <label className="col-form-label col-sm-8 col-md-6 col-lg-8">Initial Investment Amount (Principal)</label>
+              <div className="col-sm-4 col-md-3 col-lg-4">
+                <input 
+                  type="number"
+                  className="form-control"
+                  autoFocus="true"
+                  data-name="principal"
+                  value={principal}
+                  onChange={handleInput} />
+              </div>
             </div>
-            <div className="form-group">
-              <div className="form-label">Annual Rate of Return (i.e. Interest Rate)</div>
-              <input 
-                type="number"
-                className="form-control"
-                data-name="rate"
-                value={rate} 
-                onChange={handleInput} />
+            <div className="row form-group">
+              <label className="col-form-label col-sm-8 col-md-6 col-lg-8">Annual Rate of Return (i.e. Interest Rate)</label>
+              <div className="col-sm-4 col-md-3 col-lg-4">
+                <input 
+                  type="number"
+                  className="form-control"
+                  data-name="rate"
+                  value={rate} 
+                  onChange={handleInput} />
+              </div>
             </div>
-            <div className="form-group">
-              <div className="form-label">Number of Compoundings per Year</div>
-              <input 
-                type="number"
-                className="form-control" 
-                data-name="compoundings"
-                value={compoundings} 
-                onChange={handleInput} />
-              <small className="form-text text-muted">Usually compounded monthly (12)</small>
+            <div className="row form-group">
+              <label className="col-form-label col-sm-8 col-md-6 col-lg-8">
+                Number of Compoundings per Year
+                <small className="form-text text-muted">Usually compounded monthly (12)</small>
+              </label>
+              <div className="col-sm-4 col-md-3 col-lg-4">
+                <input 
+                  type="number"
+                  className="form-control" 
+                  data-name="compoundings"
+                  value={compoundings} 
+                  onChange={handleInput} />
+                
+              </div>
             </div>
-            <div className="form-group">
-              <div className="form-label">Number of <b>Contributions</b> per Year</div>
-              <input 
-                type="number"
-                className="form-control" 
-                data-name="contributions"
-                value={contributions} 
-                onChange={handleInput} />
-              <small
-                className="form-text text-muted">For contributions twice a month, use 24. <br/>For contributions every two weeks, use 26.</small>
+            <div className="row form-group">
+              <label className="col-form-label col-sm-8 col-md-6 col-lg-8">
+                Number of <b>Contributions</b> per Year
+                <small className="form-text text-muted">For contributions twice a month, use 24. <br/>For contributions every two weeks, use 26.</small>
+              </label>
+              <div className="col-sm-4 col-md-3 col-lg-4">
+                <input 
+                  type="number"
+                  className="form-control" 
+                  data-name="contributions"
+                  value={contributions} 
+                  onChange={handleInput} />
+                
+              </div>
             </div>
-            <div className="form-group">
-              <div className="form-label">Amount of Each Contribution</div>
-              <input 
-                type="number"
-                className="form-control" 
-                data-name="contributionsAmount"
-                value={contributionsAmount} 
-                onChange={handleInput} />
+            <div className="row form-group">
+              <label className="col-form-label col-sm-8 col-md-6 col-lg-8">Amount of Each Contribution</label>
+              <div className="col-sm-4 col-md-3 col-lg-4">
+                <input 
+                  type="number"
+                  className="form-control" 
+                  data-name="contributionsAmount"
+                  value={contributionsAmount} 
+                  onChange={handleInput} />
+              </div>
             </div>
-            <div className="form-group">
-              <div className="form-label">Number of Years to Calculate</div>
-              <input 
-                type="number"
-                className="form-control"
-                data-name="years"
-                value={years} 
-                onChange={handleInput} />
+            <div className="row form-group">
+              <label className="col-form-label col-sm-8 col-md-6 col-lg-8">Number of Years to Calculate</label>
+              <div className="col-sm-4 col-md-3 col-lg-4">
+                <input 
+                  type="number"
+                  className="form-control"
+                  data-name="years"
+                  value={years} 
+                  onChange={handleInput} />
+              </div>
             </div>
 
-            <input 
-              type="button" 
-              value="Calculate" 
-              className="btn btn-primary mb-4"
-              onClick={handleCalculate} />
-            
-          </div>
-          <div className="col-sm-9 col-md-5 col-lg-5">
-            <div className="form-group">
-              <div className="form-label">Balance after {years} years</div>
-              <input 
-                type="number"
-                className="form-control"
-                data-name="balance"
-                value={balance}
-                disabled="disabled" />
+            <div className="row form-group">
+              <div className="col-md-9 col-lg-8">
+                <input 
+                  type="button" 
+                  value="Calculate" 
+                  className="btn btn-primary mb-4"
+                  onClick={handleCalculate} />
+              </div>
             </div>
-            <textarea 
-              className="form-control" 
-              rows="18"
-              value={work}/>
           </div>
+          
+          <div className="offset-lg-1 col-lg-5">
+            <div className="row form-group">
+              <label className="col-form-label col-sm-8 col-md-6 col-lg-7">Balance after {years} years</label>
+              <div className="col-sm-4 col-md-3 col-lg-5">
+                <input 
+                  type="number"
+                  className="form-control"
+                  data-name="balance"
+                  value={balance}
+                  disabled="disabled" />
+              </div>
+            </div>
+            
+            <div className="row form-group">
+              <div className="col-md-9 col-lg-12">
+                <textarea 
+                  className="form-control" 
+                  rows="15"
+                  value={work} />
+              </div>
+            </div>
+          </div>
+          
         </div>
       </div>
     );
