@@ -63,19 +63,15 @@ class App extends Component {
         let doCompound = compoundings && interval % parseInt(intervals/compoundings) === 0;
         let doContribute = contributions && interval % parseInt(intervals/contributions) === 0;
 
-        /*if (doCompound || doContribute) {
-          console.log("interval");
-          console.log("balance:",calcBalance);
-        }*/
         if (doCompound) {
           // Do a compounding of interest
           calcBalance = math.round(calcBalance + parseFloat(calcBalance * rate),2);
-          //console.log("compounding: *(1+",rate,") =>",calcBalance);          
+          console.log("compounding: *(1+",rate,") =>",calcBalance);          
         }
         if (doContribute) {
           // Do a contribution
           calcBalance += contributionsAmount;
-          //console.log("contributing: +",contributionsAmount," =>",calcBalance);
+          console.log("contributing: +",contributionsAmount," =>",calcBalance);
         }
         if (doCompound || doContribute) {
           labels.push(++label);
@@ -84,12 +80,13 @@ class App extends Component {
       }
     }
     
-    this.chartData = _.merge(this.chartData, {
+    this.chartData = {
       labels: labels,
       datasets: [{
+        steppedLine: true,
         data: data,
       }]
-    });
+    };
     this.refs["chart"].forceUpdate();
     
     this.years = years;
