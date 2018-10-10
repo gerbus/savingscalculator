@@ -1,17 +1,13 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import ChartJs from 'chart.js';
-import _ from 'lodash';
 
-class Chart extends Component {
+class Chart extends PureComponent {
   /*state = {
     windowWidth: window.innerWidth,
     windowHeight: window.innerHeight,
   };*/
   componentDidMount() {
     this.attachChart();
-  }
-  shouldComponentUpdate(nextProps, nextState) {
-    return !_.isEqual(nextProps, this.props) || !_.isEqual(nextState, this.state);
   }
   render() {
     return (
