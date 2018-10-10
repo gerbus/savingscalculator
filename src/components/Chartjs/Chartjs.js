@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import ChartJs from 'chart.js';
+import _ from 'lodash';
 
 class Chart extends Component {
-  state = {
+  /*state = {
     windowWidth: window.innerWidth,
     windowHeight: window.innerHeight,
-  };
+  };*/
   componentDidMount() {
     this.attachChart();
   }
-  shouldComponentUpdate() {
-    return false;
+  shouldComponentUpdate(nextProps, nextState) {
+    return !_.isEqual(nextProps, this.props) || !_.isEqual(nextState, this.state);
   }
   render() {
     return (

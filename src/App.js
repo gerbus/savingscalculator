@@ -14,15 +14,15 @@ class App extends Component {
     contributionsAmount: '',
     years: '',
     balance: '',
+    chartData: {
+      labels: [],
+      datasets: [{
+        steppedLine: true,
+        data: []
+      }],      
+    },
   };
   years = "?";
-  chartData = {
-    labels: [],
-    datasets: [{
-      steppedLine: true,
-      data: []
-    }],      
-  };
   chartOptions = {
     scales: { 
       yAxes: [{
@@ -79,18 +79,18 @@ class App extends Component {
       }
     }
     
-    this.chartData = {
+    const chartData = {
       labels: labels,
       datasets: [{
         steppedLine: true,
         data: data,
       }]
     };
-    this.refs["chart"].forceUpdate();
     
     this.years = years;
     this.setState({
       balance: calcBalance,
+      chartData: chartData,
     });
   };
   render() {
@@ -106,6 +106,7 @@ class App extends Component {
       contributionsAmount,
       years,
       balance,
+      chartData,
     } = this.state;
       
     return (
@@ -224,7 +225,7 @@ class App extends Component {
                 <Chart 
                   ref="chart"
                   type="line" 
-                  data={this.chartData} 
+                  data={chartData} 
                   options={this.chartOptions} />
               </div>
             </div>
