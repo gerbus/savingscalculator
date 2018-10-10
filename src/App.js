@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import * as math from 'mathjs';
-import _ from 'lodash';
 import Chart from './components/Chartjs';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
@@ -16,7 +15,7 @@ class App extends Component {
     years: '',
     balance: '',
   };
-  years = "{}";
+  years = "?";
   chartData = {
     labels: [],
     datasets: [{
@@ -107,7 +106,6 @@ class App extends Component {
       contributionsAmount,
       years,
       balance,
-      work,
     } = this.state;
       
     return (
@@ -233,8 +231,6 @@ class App extends Component {
           </div>
           
         </div>
-        
-                
       </div>
     );
   }
